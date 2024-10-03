@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int     @id @default(autoincrement())
+  name       String
+  email      String  @unique
+  likes      Tag[]   @relation("likes")
+  dislikes   Tag[]   @relation("dislikes")
+}
+
+model Tag {
+  id         Int     @id @default(autoincrement())
+  name       String  @unique
+  likedBy    User[]  @relation("likes")
+  dislikedBy User[]  @relation("dislikes")
+}
